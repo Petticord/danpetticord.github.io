@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.sciencedirect.com)",
+      "WebFetch(domain:journals.plos.org)",
+      "WebFetch(domain:onlinelibrary.wiley.com)",
+      "WebFetch(domain:doi.org)",
+      "WebFetch(domain:api.crossref.org)",
+      "WebFetch(domain:scholar.google.com)",
+      "WebFetch(domain:www.researchgate.net)"
+    ]
+  }
+}
