@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroImages = [
       'images/DanPushingGPR.jpeg',
       'images/Climbing.jpg',
-      'images/DanRatSnake.jpeg',
+      'images/DanGatorFlorida.jpeg',
       'images/DanScrubJayFlorida.jpeg',
     ];
 
