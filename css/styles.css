@@ -29,6 +29,43 @@
   --max-width: 1280px;
 }
 
+/* ─── DARK THEME ─── */
+[data-theme="dark"] {
+  --bg:         #1a1916;
+  --paper:      #222019;
+  --grid:       #33302a;
+  --text:       #e8e4dd;
+  --muted:      #9a948b;
+  --white:      #2a2722;
+  --border:     #3d3a33;
+  --border-dark:#e8e4dd;
+}
+[data-theme="dark"] body::before { opacity: 0.015; }
+[data-theme="dark"] .nav.scrolled { background: rgba(26,25,22,0.95); }
+[data-theme="dark"] .nav-links { background: var(--bg); }
+[data-theme="dark"] ::selection { background: rgba(181,51,46,0.25); }
+[data-theme="dark"] .stat-card { background: var(--paper); }
+[data-theme="dark"] .teaching-card { background: var(--paper); border-color: var(--border); }
+[data-theme="dark"] .research-card:hover { background: var(--paper); }
+[data-theme="dark"] .contact-section { background: var(--paper); }
+[data-theme="dark"] .footer { background: var(--bg); }
+[data-theme="dark"] .pub-item:hover { background: var(--paper); }
+[data-theme="dark"] .media-card { background: var(--paper); }
+[data-theme="dark"] .media-card:hover { background: var(--grid); }
+
+/* ─── THEME TOGGLE ─── */
+.theme-toggle {
+  background: none; border: 1px solid var(--border); cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); transition: color 0.3s, border-color 0.3s;
+  margin-left: 8px; padding: 0;
+}
+.theme-toggle:hover { color: var(--warm); border-color: var(--warm); }
+.theme-icon-moon { display: none; }
+[data-theme="dark"] .theme-icon-sun { display: none; }
+[data-theme="dark"] .theme-icon-moon { display: block; }
+
 /* ─── RESET & BASE ─── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -45,6 +82,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 ::selection { background: rgba(181,51,46,0.12); color: var(--text); }
@@ -768,6 +806,7 @@ body::before {
   .nav-links.open { display: flex; }
   .nav-links.open .nav-link { font-size: 22px; }
   .nav-hamburger { display: block; z-index: 110; }
+  .theme-toggle { position: absolute; right: 60px; top: 50%; transform: translateY(-50%); }
   .research-grid { grid-template-columns: 1fr; }
   .teaching-grid { grid-template-columns: 1fr; }
   .stat-bar { grid-template-columns: 1fr; }

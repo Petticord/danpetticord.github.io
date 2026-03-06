@@ -29,12 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ─── ACTIVE NAV LINK ─── */
   const currentPage = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
   document.querySelectorAll('.nav-link').forEach(link => {
-    const href = link.getAttribute('href').replace('.html', '').replace('./', '').replace('index', '');
-    const page = currentPage === 'index' ? '' : currentPage;
-    if (href === page || (href === '' && page === '')) {
-      // Don't highlight home on inner pages
-    }
-    // Highlight matching page
     if (link.getAttribute('data-page') === currentPage) {
       link.classList.add('active');
     }
@@ -46,55 +40,59 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroIndicators = document.querySelectorAll('.hero-indicator');
 
   if (heroPrefix && heroHighlight) {
-    const GEM_COLORS = ['#B5332E', '#2E6B6B', '#4A7C3F', '#C67D3B', '#5B7FA5'];
+    const GEM_COLORS = ['#B5332E', '#2E6B6B', '#C67D3B', '#4A7C3F'];
     const lines = [
-      { prefix: 'Engineering solutions for', highlight: 'phosphorus pollution & phytoremediation.' },
+      { prefix: 'Engineering sustainable solutions for', highlight: 'phosphorus pollution.' },
       { prefix: 'Uncovering the hidden dynamics of', highlight: 'microbial community assembly.' },
-      { prefix: 'Tracing nutrients through', highlight: 'forests, pastures, and soils.' },
-      { prefix: 'Bridging biogeochemistry and', highlight: 'tropical diversity & conservation.' },
-      { prefix: 'Exploring marine ecosystems and', highlight: 'coral reef biodiversity & conservation.' },
+      { prefix: 'Tracing nutrients through', highlight: 'natural and working landscapes.' },
+      { prefix: 'Bridging biogeochemistry and', highlight: 'conservation.' },
     ];
     const heroImages = [
-      'images/boa_headshot.jpg',
       'images/DanPushingGPR.jpeg',
-      'images/DanGatorFlorida.jpeg',
-      'images/DanScrubJayFlorida.jpeg',
-      'images/DanCoral.jpeg',
+      'images/Climbing.jpg',
+      'images/sortingGrass.jpg',
+      'images/ongoingWorkCanopy.jpeg',
     ];
+
+    // Preload all hero images for smooth transitions
+    heroImages.forEach(src => { const img = new Image(); img.src = src; });
 
     const heroImg = document.getElementById('hero-photo');
     let current = 0;
+    const FADE_MS = 500;
 
     function rotateLine() {
       // Fade out
       heroPrefix.style.opacity = '0';
       heroHighlight.style.opacity = '0';
-      heroHighlight.style.transform = 'translateY(14px)';
+      heroHighlight.style.transform = 'translateY(10px)';
       if (heroImg) heroImg.style.opacity = '0';
 
       setTimeout(() => {
         current = (current + 1) % lines.length;
         heroPrefix.textContent = lines[current].prefix;
         heroHighlight.textContent = lines[current].highlight;
-        heroHighlight.style.color = GEM_COLORS[current % GEM_COLORS.length];
+        heroHighlight.style.color = GEM_COLORS[current];
 
         // Swap hero image
         if (heroImg) {
           heroImg.src = heroImages[current];
+          // Force a reflow before fading in to avoid flicker
+          heroImg.offsetHeight;
           heroImg.style.opacity = '1';
         }
 
         // Update indicators
         heroIndicators.forEach((ind, i) => {
           ind.style.width = i === current ? '36px' : '12px';
-          ind.style.background = i === current ? GEM_COLORS[i % GEM_COLORS.length] : '#E8E4DD';
+          ind.style.background = i === current ? GEM_COLORS[i] : 'var(--grid)';
         });
 
         // Fade in
         heroPrefix.style.opacity = '1';
         heroHighlight.style.opacity = '1';
         heroHighlight.style.transform = 'translateY(0)';
-      }, 550);
+      }, FADE_MS);
     }
 
     setInterval(rotateLine, 4200);
@@ -112,18 +110,44 @@ document.addEventListener('DOMContentLoaded', () => {
       'images/esa_gopher_headshot.jpg',
       'images/dan-huacachina.jpg',
     ];
+
+    // Preload about images
+    aboutImages.forEach(src => { const img = new Image(); img.src = src; });
+
     let aboutIdx = 0;
+    const ABOUT_FADE_MS = 500;
+
     setInterval(() => {
       aboutPhoto.style.opacity = '0';
       setTimeout(() => {
         aboutIdx = (aboutIdx + 1) % aboutImages.length;
         aboutPhoto.src = aboutImages[aboutIdx];
+        aboutPhoto.offsetHeight;
         aboutPhoto.style.opacity = '1';
-      }, 500);
+      }, ABOUT_FADE_MS);
     }, 4200);
   }
 
-  /* ─── MOBILE NAV (placeholder for future) ─── */
+  /* ─── THEME TOGGLE ─── */
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  });
+
+  /* ─── MOBILE NAV ─── */
   const hamburger = document.querySelector('.nav-hamburger');
   const navLinks = document.querySelector('.nav-links');
   if (hamburger && navLinks) {
