@@ -102,13 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const aboutPhoto = document.getElementById('about-photo');
   if (aboutPhoto) {
     const aboutImages = [
+      'images/boa_headshot.jpg',
       'images/DJ.jpg',
       'images/Sudan.jpg',
       'images/turt.jpg',
-      'images/DanRatSnake.jpeg',
-      'images/big_caiman.jpg',
       'images/esa_gopher_headshot.jpg',
       'images/dan-huacachina.jpg',
+      'images/Guinness.jpg',
+      'images/Ireland.jpg',
     ];
 
     // Preload about images
@@ -151,15 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.querySelector('.nav-hamburger');
   const navLinks = document.querySelector('.nav-links');
   if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navLinks.classList.toggle('open');
-    });
+    function toggleMenu(open) {
+      const isOpen = open !== undefined ? open : !navLinks.classList.contains('open');
+      hamburger.classList.toggle('active', isOpen);
+      navLinks.classList.toggle('open', isOpen);
+      nav.classList.toggle('menu-open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+    hamburger.addEventListener('click', () => toggleMenu());
     navLinks.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('open');
-      });
+      link.addEventListener('click', () => toggleMenu(false));
     });
   }
 
