@@ -46,18 +46,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroIndicators = document.querySelectorAll('.hero-indicator');
 
   if (heroPrefix && heroHighlight) {
-    const GEM_COLORS = ['#B5332E', '#2E6B6B', '#4A7C3F', '#C67D3B'];
+    const GEM_COLORS = ['#B5332E', '#2E6B6B', '#4A7C3F', '#C67D3B', '#5B7FA5'];
     const lines = [
       { prefix: 'Engineering solutions for', highlight: 'phosphorus pollution & phytoremediation.' },
       { prefix: 'Uncovering the hidden dynamics of', highlight: 'microbial community assembly.' },
       { prefix: 'Tracing nutrients through', highlight: 'forests, pastures, and soils.' },
       { prefix: 'Bridging biogeochemistry and', highlight: 'tropical diversity & conservation.' },
+      { prefix: 'Exploring marine ecosystems and', highlight: 'coral reef biodiversity & conservation.' },
     ];
     const heroImages = [
+      'images/boa_headshot.jpg',
       'images/DanPushingGPR.jpeg',
-      'images/Climbing.jpg',
       'images/DanGatorFlorida.jpeg',
       'images/DanScrubJayFlorida.jpeg',
+      'images/DanCoral.jpeg',
     ];
 
     const heroImg = document.getElementById('hero-photo');
@@ -98,11 +100,42 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(rotateLine, 4200);
   }
 
+  /* ─── ABOUT PAGE PHOTO ROTATION ─── */
+  const aboutPhoto = document.getElementById('about-photo');
+  if (aboutPhoto) {
+    const aboutImages = [
+      'images/DJ.jpg',
+      'images/Sudan.jpg',
+      'images/turt.jpg',
+      'images/DanRatSnake.jpeg',
+      'images/big_caiman.jpg',
+      'images/esa_gopher_headshot.jpg',
+      'images/dan-huacachina.jpg',
+    ];
+    let aboutIdx = 0;
+    setInterval(() => {
+      aboutPhoto.style.opacity = '0';
+      setTimeout(() => {
+        aboutIdx = (aboutIdx + 1) % aboutImages.length;
+        aboutPhoto.src = aboutImages[aboutIdx];
+        aboutPhoto.style.opacity = '1';
+      }, 500);
+    }, 4200);
+  }
+
   /* ─── MOBILE NAV (placeholder for future) ─── */
   const hamburger = document.querySelector('.nav-hamburger');
-  if (hamburger) {
+  const navLinks = document.querySelector('.nav-links');
+  if (hamburger && navLinks) {
     hamburger.addEventListener('click', () => {
-      document.querySelector('.nav-links').classList.toggle('open');
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
     });
   }
 
